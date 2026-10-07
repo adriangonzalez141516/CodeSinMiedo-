@@ -273,34 +273,5 @@ export const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
         profileWeight: { visual: 1, tecnico: 1, realista: 1 }
       }
     ]
-  },
-  {
-    id: 5,
-    stepName: 'Disponibilidad Semanal',
-    title: '¿Cuánto tiempo real puedes dedicarle cada semana?',
-    subtitle: 'Para adaptar la dosificación de los ejercicios a tu día a día.',
-    options: [
-      {
-        id: 'q5_low',
-        icon: '🌱',
-        title: '1 a 3 horas semanales (Micro-aprendizaje)',
-        subtitle: 'Poco a poco, con lecciones cortas de 10-15 minutos entre semana o los findes.',
-        timeCommitment: 'low'
-      },
-      {
-        id: 'q5_mid',
-        icon: '🔥',
-        title: '4 a 7 horas semanales (Progreso constante)',
-        subtitle: 'Un ratito casi todos los días para consolidar hábitos sólidos de programación.',
-        timeCommitment: 'mid'
-      },
-      {
-        id: 'q5_high',
-        icon: '🚀',
-        title: 'Más de 7 horas semanales (Inmersión total)',
-        subtitle: 'Quiero avanzar a fondo y aprender lo máximo posible en el menor tiempo.',
-        timeCommitment: 'high'
-      }
-    ]
   }
 ];

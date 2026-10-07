@@ -16,22 +16,6 @@ export default async function CoursePage({ params }: { params: Promise<{ courseI
         Saltar al contenido del curso
       </a>
 
-      {/* Navigation */}
-      <header role="banner">
-        <nav className="navbar" aria-label="Navegación principal">
-          <div className="container">
-            <Link href="/" className="nav-brand" aria-label="DevProfesor - Inicio">
-              <span className="text-gradient">Dev</span>Profesor
-            </Link>
-            <div className="flex gap-2">
-              <Link href="/" className="btn btn-secondary" style={{ minHeight: '44px' }}>
-                ← Volver al inicio
-              </Link>
-            </div>
-          </div>
-        </nav>
-      </header>
-
       <main id="course-content">
         <section className="container" style={{ paddingTop: '3.5rem', paddingBottom: '4rem' }}>
           {/* Course Banner */}
