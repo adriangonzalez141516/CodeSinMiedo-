@@ -241,37 +241,5 @@ export const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
         profileWeight: { visual: 0, tecnico: 3, realista: 0 }
       }
     ]
-  },
-  {
-    id: 4,
-    stepName: 'Modalidad de Acompañamiento',
-    title: 'A la hora de aprender, ¿qué formato te ayuda a mantener el foco?',
-    subtitle: 'Para sugerirte el nivel de acompañamiento más adecuado.',
-    options: [
-      {
-        id: 'q4_grupal',
-        icon: '👥',
-        title: 'Tutorías en directo y grupo reducido (Bootcamp Grupal)',
-        subtitle: 'Me motiva tener 2 tutorías al mes de 60 min en grupos de 5 y 1 webinar mensual para resolver dudas en vivo.',
-        planPreference: 'grupal',
-        profileWeight: { visual: 1, tecnico: 1, realista: 1 }
-      },
-      {
-        id: 'q4_autoestudio',
-        icon: '⚡',
-        title: '100% a mi ritmo (Autoestudio)',
-        subtitle: 'Prefiero consumir los vídeos y retos en mis propios horarios con canal de dudas asíncrono.',
-        planPreference: 'autoestudio',
-        profileWeight: { visual: 0, tecnico: 0, realista: 0 }
-      },
-      {
-        id: 'q4_mentoria',
-        icon: '🎯',
-        title: 'Mentoría privada 1 a 1 personalizada',
-        subtitle: 'Busco máxima aceleración con 2 sesiones privadas de 45 min al mes para revisar mi código a fondo.',
-        planPreference: 'mentoria',
-        profileWeight: { visual: 1, tecnico: 1, realista: 1 }
-      }
-    ]
   }
 ];

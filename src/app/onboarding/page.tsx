@@ -7,9 +7,7 @@ import { supabase } from '@/lib/supabase';
 import {
   ONBOARDING_QUESTIONS,
   LEARNING_PROFILES,
-  LEARNING_PLANS,
-  LearningProfile,
-  LearningPlan
+  LearningProfile
 } from '@/data/onboardingData';
 import styles from './onboarding.module.css';
 
@@ -20,8 +18,6 @@ export default function OnboardingPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [isCalculating, setIsCalculating] = useState(false);
   const [resultProfile, setResultProfile] = useState<LearningProfile | null>(null);
-  const [recommendedPlan, setRecommendedPlan] = useState<LearningPlan | null>(null);
-  const [selectedPlanTab, setSelectedPlanTab] = useState<'autoestudio' | 'grupal' | 'mentoria'>('grupal');
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
@@ -66,22 +62,14 @@ export default function OnboardingPage() {
       realista: 0
     };
 
-    let chosenPlanKey: 'autoestudio' | 'grupal' | 'mentoria' = 'grupal';
-
     ONBOARDING_QUESTIONS.forEach(q => {
       const chosenOptionId = answers[q.id];
       const option = q.options.find(opt => opt.id === chosenOptionId);
 
-      if (option) {
-        if (option.profileWeight) {
-          scores.visual += option.profileWeight.visual || 0;
-          scores.tecnico += option.profileWeight.tecnico || 0;
-          scores.realista += option.profileWeight.realista || 0;
-        }
-
-        if (option.planPreference) {
-          chosenPlanKey = option.planPreference;
-        }
+      if (option && option.profileWeight) {
+        scores.visual += option.profileWeight.visual || 0;
+        scores.tecnico += option.profileWeight.tecnico || 0;
+        scores.realista += option.profileWeight.realista || 0;
       }
     });
 
@@ -97,20 +85,16 @@ export default function OnboardingPage() {
     });
 
     const determinedProfile = LEARNING_PROFILES[bestProfileKey];
-    const determinedPlan = LEARNING_PLANS[chosenPlanKey] || LEARNING_PLANS['grupal'];
 
     setTimeout(async () => {
       setResultProfile(determinedProfile);
-      setRecommendedPlan(determinedPlan);
-      setSelectedPlanTab(chosenPlanKey);
       setIsCalculating(false);
 
-      // Save to localStorage so courses can immediately sort/prioritize videos
+      // Save to localStorage so courses immediately prioritize videos in this format
       const profilePayload = {
         profileId: determinedProfile.id,
         profileTitle: determinedProfile.title,
         explanationType: determinedProfile.explanationType,
-        planPreference: determinedPlan.id,
         savedAt: new Date().toISOString()
       };
 
@@ -140,7 +124,6 @@ export default function OnboardingPage() {
     setSelectedAnswers({});
     setCurrentStepIndex(0);
     setResultProfile(null);
-    setRecommendedPlan(null);
   };
 
   return (
@@ -231,132 +214,61 @@ export default function OnboardingPage() {
         )}
 
         {/* Result Screen */}
-        {resultProfile && recommendedPlan && (
+        {resultProfile && (
           <div className={styles.resultContainer}>
             <div className={styles.resultBadgeHeader}>
               <div className={styles.resultIconLg}>{resultProfile.icon}</div>
               <span style={{ fontSize: '0.82rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                Tu Perfil Asignado
+                Tu Formato de Aprendizaje
               </span>
               <h1 style={{ fontSize: '1.75rem', margin: '0.35rem 0', color: 'var(--text-primary)' }}>
                 {resultProfile.title}
               </h1>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: '0.4rem 0 0' }}>
-                ✨ {resultProfile.priorityAdvice}
+              <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', margin: '0.5rem auto 0', maxWidth: '380px', lineHeight: 1.5 }}>
+                {resultProfile.headline}
               </p>
             </div>
 
-            {/* Plan Recommendation Section (matching exact website pricing card format) */}
-            <div style={{ marginTop: '0.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Plan Seleccionado
-                </span>
-
-                {/* 3 Tiers Toggle */}
-                <div style={{ display: 'flex', background: 'var(--bg-accent)', padding: '3px', borderRadius: '99px', fontSize: '0.74rem' }}>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPlanTab('autoestudio')}
-                    style={{
-                      border: 'none',
-                      background: selectedPlanTab === 'autoestudio' ? 'var(--primary)' : 'transparent',
-                      color: selectedPlanTab === 'autoestudio' ? '#fff' : 'var(--text-secondary)',
-                      padding: '0.3rem 0.65rem',
-                      borderRadius: '99px',
-                      cursor: 'pointer',
-                      fontWeight: 600,
-                      transition: 'var(--transition-smooth)'
-                    }}
-                  >
-                    Autoestudio
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPlanTab('grupal')}
-                    style={{
-                      border: 'none',
-                      background: selectedPlanTab === 'grupal' ? 'var(--primary)' : 'transparent',
-                      color: selectedPlanTab === 'grupal' ? '#fff' : 'var(--text-secondary)',
-                      padding: '0.3rem 0.65rem',
-                      borderRadius: '99px',
-                      cursor: 'pointer',
-                      fontWeight: 600,
-                      transition: 'var(--transition-smooth)'
-                    }}
-                  >
-                    Grupal
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPlanTab('mentoria')}
-                    style={{
-                      border: 'none',
-                      background: selectedPlanTab === 'mentoria' ? 'var(--primary)' : 'transparent',
-                      color: selectedPlanTab === 'mentoria' ? '#fff' : 'var(--text-secondary)',
-                      padding: '0.3rem 0.65rem',
-                      borderRadius: '99px',
-                      cursor: 'pointer',
-                      fontWeight: 600,
-                      transition: 'var(--transition-smooth)'
-                    }}
-                  >
-                    1 a 1
-                  </button>
-                </div>
+            {/* Course Adaptation Card */}
+            <div 
+              className="glass-panel card flex-col" 
+              style={{ 
+                padding: '1.75rem 1.5rem', 
+                width: '100%', 
+                border: '1px solid var(--primary)', 
+                position: 'relative' 
+              }}
+            >
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(99, 102, 241, 0.12)', border: '1px solid rgba(99, 102, 241, 0.25)', color: 'var(--primary)', padding: '0.25rem 0.75rem', borderRadius: '99px', fontSize: '0.78rem', fontWeight: 700, width: 'fit-content', marginBottom: '0.75rem' }}>
+                <span>🎯</span> Enfoque Activado para tu Visor
               </div>
 
-              {/* Exact format of website pricing card */}
-              {(() => {
-                const activePlan = LEARNING_PLANS[selectedPlanTab];
-                const isRecommended = recommendedPlan.id === activePlan.id;
-                const isGrupal = activePlan.id === 'grupal';
+              <h3 style={{ fontSize: '1.15rem', color: 'var(--text-primary)', margin: '0 0 0.5rem 0' }}>
+                {resultProfile.explanationType === 'graphic' && 'Prioridad a Explicaciones Gráficas & Esquemas'}
+                {resultProfile.explanationType === 'technical' && 'Prioridad a Enfoque Técnico & Bajo Nivel'}
+                {resultProfile.explanationType === 'simplified' && 'Prioridad a Casos Prácticos & Proyectos Reales'}
+              </h3>
 
-                return (
-                  <div 
-                    className="glass-panel card flex-col" 
-                    style={{ 
-                      padding: '2rem 1.5rem', 
-                      width: '100%', 
-                      border: isGrupal ? '1px solid var(--primary)' : '1px solid var(--glass-border)', 
-                      position: 'relative' 
-                    }}
-                  >
-                    {isRecommended && (
-                      <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: 'var(--primary)', color: 'white', padding: '0.2rem 1.1rem', borderRadius: '99px', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.5px' }}>
-                        RECOMENDADO
-                      </div>
-                    )}
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.55', margin: '0 0 1rem 0' }}>
+                ✨ {resultProfile.priorityAdvice}
+              </p>
 
-                    <h3 style={{ fontSize: '1.25rem', color: isGrupal ? 'var(--primary)' : 'var(--text-secondary)', margin: 0 }}>
-                      {activePlan.name}
-                    </h3>
-
-                    <div style={{ fontSize: '2.8rem', fontWeight: 800, margin: '0.75rem 0', color: 'var(--text-primary)' }}>
-                      {activePlan.priceNote.replace(' €/mes', '€').replace(' €', '€')}
-                      <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 400 }}>/mes</span>
-                    </div>
-
-                    <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem 0', color: 'var(--text-secondary)', lineHeight: '2', fontSize: '0.9rem' }}>
-                      {activePlan.features.map((feat, idx) => (
-                        <li key={idx}>✓ {feat}</li>
-                      ))}
-                    </ul>
-
-                    <Link
-                      href="/courses/java-zero-to-hero"
-                      className={`btn ${isGrupal ? 'btn-primary' : 'btn-secondary'}`}
-                      style={{ width: '100%', minHeight: '44px', textAlign: 'center' }}
-                    >
-                      Empezar con {activePlan.name}
-                    </Link>
-                  </div>
-                );
-              })()}
+              <div style={{ background: 'var(--bg-accent)', padding: '0.75rem 1rem', borderRadius: '12px', fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <span>💡</span>
+                <span>En cualquier vídeo podrás alternar al instante entre las 3 perspectivas disponibles.</span>
+              </div>
             </div>
 
             {/* Action buttons */}
             <div className={styles.actionStack}>
+              <Link
+                href="/courses/java-zero-to-hero"
+                className="btn btn-primary"
+                style={{ width: '100%', minHeight: '48px', fontSize: '1rem', fontWeight: 700, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+              >
+                🚀 Ir al Curso con mi Formato Activado
+              </Link>
+
               {!user ? (
                 <Link
                   href="/register"
@@ -367,7 +279,7 @@ export default function OnboardingPage() {
                 </Link>
               ) : (
                 <div style={{ textAlign: 'center', fontSize: '0.82rem', color: 'var(--success)' }}>
-                  ✓ Perfil sincronizado con tu cuenta
+                  ✓ Perfil guardado y sincronizado con tu cuenta
                 </div>
               )}
 
