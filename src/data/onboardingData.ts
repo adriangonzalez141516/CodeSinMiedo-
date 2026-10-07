@@ -13,8 +13,9 @@ export interface LearningProfile {
 }
 
 export interface LearningPlan {
-  id: 'self-paced' | 'mentorship';
+  id: 'autoestudio' | 'grupal' | 'mentoria';
   name: string;
+  tierNumber: string;
   badge: string;
   priceNote: string;
   icon: string;
@@ -33,7 +34,7 @@ export interface QuestionOption {
     tecnico?: number;
     realista?: number;
   };
-  planPreference?: 'self-paced' | 'mentorship';
+  planPreference?: 'autoestudio' | 'grupal' | 'mentoria';
   timeCommitment?: 'low' | 'mid' | 'high';
 }
 
@@ -100,38 +101,56 @@ export const LEARNING_PROFILES: Record<string, LearningProfile> = {
 };
 
 export const LEARNING_PLANS: Record<string, LearningPlan> = {
-  'self-paced': {
-    id: 'self-paced',
-    name: 'Plan Autónomo (A tu ritmo)',
+  'autoestudio': {
+    id: 'autoestudio',
+    name: 'Tier 1: Autoestudio',
+    tierNumber: 'Nivel 1',
     badge: '100% Flexible',
-    priceNote: '19€/mes o 149€/año',
+    priceNote: '29 €/mes',
     icon: '⚡',
-    headline: 'Vídeos y retos adaptados a tu estilo, con total libertad horaria.',
+    headline: 'Catálogo grabado completo + canal de dudas asíncrono para avanzar a tu propio ritmo.',
     features: [
-      'Acceso total a todos los cursos y temarios',
-      'Vídeos y explicaciones ordenados según tu perfil de aprendizaje',
-      'Editor interactivo con comprobación y feedback en tiempo real',
-      'Apuntes y resúmenes descargables en PDF y Markdown',
-      'A tu propio ritmo, sin fechas ni horarios fijos'
+      'Acceso total e ilimitado a todos los cursos y temarios grabados',
+      'Explicaciones ordenadas según tu perfil (Visual, Técnico o Realista)',
+      'Canal de dudas asíncrono en la plataforma con soporte',
+      'Prácticas y retos guiados con código corregido paso a paso',
+      '0 horas de directo: total libertad y autonomía'
     ],
-    recommendedIf: 'Ideal si tienes horarios cambiantes y prefieres avanzar de forma autodidacta sin depender de sesiones programadas.'
+    recommendedIf: 'Ideal si tienes horarios cambiantes y prefieres avanzar a tu propio ritmo sin depender de sesiones programadas.'
   },
-  'mentorship': {
-    id: 'mentorship',
-    name: 'Plan Guiado + Mentoría Semanal Live',
-    badge: 'Recomendado para ti',
-    priceNote: 'Plazas limitadas por grupo',
+  'grupal': {
+    id: 'grupal',
+    name: 'Tier 2: Bootcamp Grupal',
+    tierNumber: 'Nivel 2',
+    badge: 'Recomendado / Más Popular',
+    priceNote: '59 €/mes',
     icon: '🔥',
-    headline: 'Todo el contenido adaptado + 1 sesión semanal de 1 hora en directo conmigo.',
+    headline: 'Todo el contenido + 2 tutorías grupales al mes (grupos de 5) + 1 webinar temático mensual.',
     features: [
-      'Todo lo incluido en el Plan Autónomo sin restricciones',
-      '1 Sesión Semanal en Directo (1 Hora) conmigo en grupo reducido',
-      'Revisión en vivo de tu código y resolución inmediata de bloqueos',
-      'Resolución de dudas en pantalla compartida y consejos profesionales',
-      'Canal privado para interactuar con el profesor y otros compañeros',
-      'Planificación semanal de objetivos para no procrastinar ni abandonar'
+      'Todo lo incluido en el Plan Autoestudio sin restricciones',
+      '2 tutorías grupales al mes de 60 minutos en grupos de 5 alumnos',
+      '1 webinar temático mensual en directo para profundizar',
+      'Horarios fijos semanales (sesiones grabadas íntegras en la plataforma)',
+      'Revisión en vivo de código y feedback directo con compañeros'
     ],
-    recommendedIf: 'Perfecto si valoras el contacto humano directo, el feedback semanal para no atascarte y el compromiso de una cita en vivo.'
+    recommendedIf: 'Perfecto si te motiva el compromiso de grupo, las tutorías en vivo y el feedback constante quincenal.'
+  },
+  'mentoria': {
+    id: 'mentoria',
+    name: 'Tier 3: Mentoría 1 a 1',
+    tierNumber: 'Nivel 3',
+    badge: 'Solo 6 plazas al mes',
+    priceNote: '149 €/mes',
+    icon: '👑',
+    headline: 'Todo el Plan Grupal + 2 sesiones privadas 1 a 1 de 45 minutos al mes conmigo.',
+    features: [
+      'Todo lo incluido en el Plan Grupal (catálogo, canal, tutorías y webinars)',
+      '2 sesiones privadas 1 a 1 de 45 minutos al mes (seguimiento individual)',
+      'Revisión y auditoría personalizada de tu código y proyectos',
+      'Resolución directa de bloqueos en pantalla compartida',
+      'Cupo estrictamente limitado a 6 alumnos al mes para máxima atención'
+    ],
+    recommendedIf: 'La mejor opción si buscas acelerar al máximo y contar con un mentor dedicado a tu caso específico.'
   }
 };
 
@@ -226,24 +245,32 @@ export const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
   {
     id: 4,
     stepName: 'Modalidad de Acompañamiento',
-    title: 'Para progresar con constancia y no abandonar, ¿qué formato te resulta más efectivo?',
-    subtitle: 'Estamos planeando sesiones en directo de 1 hora para interactuar con los alumnos.',
+    title: 'A la hora de aprender, ¿qué formato te ayuda a mantener el foco?',
+    subtitle: 'Para sugerirte el nivel de acompañamiento más adecuado.',
     options: [
       {
-        id: 'q4_mentorship',
-        icon: '🤝',
-        title: 'Guiado con 1 sesión semanal de 1 hora en directo',
-        subtitle: 'Me motiva tener una cita semanal para resolver dudas, revisar mi código en vivo y hablar con el profesor.',
-        planPreference: 'mentorship',
+        id: 'q4_grupal',
+        icon: '👥',
+        title: 'Tutorías en directo y grupo reducido (Bootcamp Grupal)',
+        subtitle: 'Me motiva tener 2 tutorías al mes de 60 min en grupos de 5 y 1 webinar mensual para resolver dudas en vivo.',
+        planPreference: 'grupal',
         profileWeight: { visual: 1, tecnico: 1, realista: 1 }
       },
       {
-        id: 'q4_selfpaced',
+        id: 'q4_autoestudio',
         icon: '⚡',
-        title: '100% a mi ritmo con vídeos y retos interactivos',
-        subtitle: 'Prefiero total flexibilidad horaria sin depender de un día u hora fijados para conectarme.',
-        planPreference: 'self-paced',
+        title: '100% a mi ritmo (Autoestudio)',
+        subtitle: 'Prefiero consumir los vídeos y retos en mis propios horarios con canal de dudas asíncrono.',
+        planPreference: 'autoestudio',
         profileWeight: { visual: 0, tecnico: 0, realista: 0 }
+      },
+      {
+        id: 'q4_mentoria',
+        icon: '🎯',
+        title: 'Mentoría privada 1 a 1 personalizada',
+        subtitle: 'Busco máxima aceleración con 2 sesiones privadas de 45 min al mes para revisar mi código a fondo.',
+        planPreference: 'mentoria',
+        profileWeight: { visual: 1, tecnico: 1, realista: 1 }
       }
     ]
   },
@@ -251,7 +278,7 @@ export const ONBOARDING_QUESTIONS: OnboardingQuestion[] = [
     id: 5,
     stepName: 'Disponibilidad Semanal',
     title: '¿Cuánto tiempo real puedes dedicarle cada semana?',
-    subtitle: 'Para adaptar la duración y dosificación de los ejercicios a tu día a día.',
+    subtitle: 'Para adaptar la dosificación de los ejercicios a tu día a día.',
     options: [
       {
         id: 'q5_low',

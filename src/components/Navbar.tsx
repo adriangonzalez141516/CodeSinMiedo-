@@ -53,12 +53,9 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
 
           {/* Desktop Navigation Links */}
           <div className="nav-desktop-links">
-            <Link href="/onboarding" className={`nav-link ${pathname === '/onboarding' ? 'active' : ''}`} style={{ color: 'var(--primary)', fontWeight: 600 }}>
-              🎯 Test de Estilo
-            </Link>
             <Link href="/#metodologia" className="nav-link">Metodología</Link>
-            <Link href="/#faq" className="nav-link">FAQ</Link>
             <Link href="/#precios" className="nav-link">Precios</Link>
+            <Link href="/#faq" className="nav-link">FAQ</Link>
             <Link href="/contacto" className={`nav-link ${pathname === '/contacto' ? 'active' : ''}`}>Contacto</Link>
 
             {user ? (
@@ -157,18 +154,6 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
                   </div>
                 )}
 
-                {/* Highlighted Diagnostic Test Link */}
-                <Link href="/onboarding" className="nav-mobile-highlight-link" onClick={closeMobileMenu}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <span style={{ fontSize: '1.4rem' }}>🎯</span>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '0.98rem', color: 'var(--text-primary)' }}>Test de Estilo de Aprendizaje</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Descubre si eres Visual, Técnico o Realista</div>
-                    </div>
-                  </div>
-                  <span style={{ color: 'var(--primary)', fontWeight: 800 }}>→</span>
-                </Link>
-
                 <div className="nav-mobile-section-title">Navegación</div>
 
                 <Link href="/#metodologia" className="nav-mobile-link" onClick={closeMobileMenu}>
@@ -176,13 +161,13 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
                   <span className="arrow-indicator">›</span>
                 </Link>
 
-                <Link href="/#faq" className="nav-mobile-link" onClick={closeMobileMenu}>
-                  <span>❓ Preguntas Frecuentes</span>
+                <Link href="/#precios" className="nav-mobile-link" onClick={closeMobileMenu}>
+                  <span>🏷️ Precios y Planes</span>
                   <span className="arrow-indicator">›</span>
                 </Link>
 
-                <Link href="/#precios" className="nav-mobile-link" onClick={closeMobileMenu}>
-                  <span>🏷️ Precios y Planes</span>
+                <Link href="/#faq" className="nav-mobile-link" onClick={closeMobileMenu}>
+                  <span>❓ Preguntas Frecuentes</span>
                   <span className="arrow-indicator">›</span>
                 </Link>
 

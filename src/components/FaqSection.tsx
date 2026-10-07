@@ -37,8 +37,18 @@ const FAQS: FaqItem[] = [
   },
   {
     id: 'faq-6',
+    question: '¿Cómo funcionan las tutorías grupales y qué pasa si falto a una sesión?',
+    answer: 'Las tutorías grupales se organizan en grupos reducidos de máximo 5 personas con franjas fijas semanales (ej. martes o jueves a las 19:00h). Si un día no puedes asistir en directo, no pierdes nada: todas las sesiones se graban y quedan disponibles de inmediato en la plataforma para que las repases a tu ritmo.',
+  },
+  {
+    id: 'faq-7',
+    question: '¿Cómo funcionan las sesiones 1 a 1 y por qué solo hay 6 plazas al mes?',
+    answer: 'Las sesiones de Mentoría privada son 2 videollamadas individuales de 45 minutos al mes, enfocadas al 100% en tu código, tus proyectos y tus bloqueos específicos. Las diseñamos en bloques de 45 minutos para garantizar máxima puntualidad y un margen de 15 minutos para tomar notas y preparar la siguiente. El cupo está estrictamente limitado a 6 alumnos al mes para asegurar una atención exclusiva y de máxima calidad.',
+  },
+  {
+    id: 'faq-8',
     question: '¿Existe algún tipo de compromiso o permanencia?',
-    answer: 'No. Puedes suscribirte de forma mensual o anual y cancelar cuando lo desees con un solo clic desde tu perfil. Mantendrás el acceso al contenido hasta que finalice el periodo que ya hayas abonado.',
+    answer: 'Ninguno. Todos los planes (Autoestudio 29€, Grupal 59€ y Mentoría 149€) son suscripciones mensuales sin permanencia. Puedes cancelar o cambiar de nivel en cualquier momento desde tu cuenta.',
   }
 ];
 

@@ -21,7 +21,7 @@ export default function OnboardingPage() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [resultProfile, setResultProfile] = useState<LearningProfile | null>(null);
   const [recommendedPlan, setRecommendedPlan] = useState<LearningPlan | null>(null);
-  const [selectedPlanTab, setSelectedPlanTab] = useState<'mentorship' | 'self-paced'>('mentorship');
+  const [selectedPlanTab, setSelectedPlanTab] = useState<'autoestudio' | 'grupal' | 'mentoria'>('grupal');
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function OnboardingPage() {
       realista: 0
     };
 
-    let wantsMentorship = false;
+    let chosenPlanKey: 'autoestudio' | 'grupal' | 'mentoria' = 'grupal';
 
     ONBOARDING_QUESTIONS.forEach(q => {
       const chosenOptionId = answers[q.id];
@@ -79,8 +79,8 @@ export default function OnboardingPage() {
           scores.realista += option.profileWeight.realista || 0;
         }
 
-        if (option.planPreference === 'mentorship') {
-          wantsMentorship = true;
+        if (option.planPreference) {
+          chosenPlanKey = option.planPreference;
         }
       }
     });
@@ -97,12 +97,12 @@ export default function OnboardingPage() {
     });
 
     const determinedProfile = LEARNING_PROFILES[bestProfileKey];
-    const determinedPlan = wantsMentorship ? LEARNING_PLANS['mentorship'] : LEARNING_PLANS['self-paced'];
+    const determinedPlan = LEARNING_PLANS[chosenPlanKey] || LEARNING_PLANS['grupal'];
 
     setTimeout(async () => {
       setResultProfile(determinedProfile);
       setRecommendedPlan(determinedPlan);
-      setSelectedPlanTab(wantsMentorship ? 'mentorship' : 'self-paced');
+      setSelectedPlanTab(chosenPlanKey);
       setIsCalculating(false);
 
       // Save to localStorage so courses can immediately sort/prioritize videos
@@ -183,10 +183,10 @@ export default function OnboardingPage() {
           <div className={styles.loadingState}>
             <div className={styles.spinnerPill} />
             <h2 style={{ fontSize: '1.35rem', color: 'var(--text-primary)', margin: 0 }}>
-              Analizando tu estilo de aprendizaje...
+              Definiendo tu perfil pedagógico...
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '320px' }}>
-              Detectando cómo asimilas mejor la programación y adaptando la ruta de vídeos a tu medida.
+              Analizando cómo asimilas el código para seleccionar tu enfoque y plan ideal.
             </p>
           </div>
         )}
@@ -283,48 +283,65 @@ export default function OnboardingPage() {
 
             {/* Plan Recommendation Section */}
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <h3 style={{ fontSize: '1.1rem', margin: 0, color: 'var(--text-primary)' }}>
-                  Tu Plan Recomendado
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <h3 style={{ fontSize: '1.05rem', margin: 0, color: 'var(--text-primary)' }}>
+                  Plan Sugerido para Ti
                 </h3>
-                {/* Plan toggle */}
-                <div style={{ display: 'flex', background: 'var(--bg-accent)', padding: '3px', borderRadius: '99px', fontSize: '0.78rem' }}>
+
+                {/* 3 Tiers Toggle */}
+                <div style={{ display: 'flex', background: 'var(--bg-accent)', padding: '3px', borderRadius: '99px', fontSize: '0.74rem' }}>
                   <button
                     type="button"
-                    onClick={() => setSelectedPlanTab('mentorship')}
+                    onClick={() => setSelectedPlanTab('autoestudio')}
                     style={{
                       border: 'none',
-                      background: selectedPlanTab === 'mentorship' ? 'var(--primary)' : 'transparent',
-                      color: selectedPlanTab === 'mentorship' ? '#fff' : 'var(--text-secondary)',
-                      padding: '0.3rem 0.75rem',
+                      background: selectedPlanTab === 'autoestudio' ? 'var(--primary)' : 'transparent',
+                      color: selectedPlanTab === 'autoestudio' ? '#fff' : 'var(--text-secondary)',
+                      padding: '0.3rem 0.65rem',
                       borderRadius: '99px',
                       cursor: 'pointer',
                       fontWeight: 600,
                       transition: 'var(--transition-smooth)'
                     }}
                   >
-                    Mentoría Live
+                    Autoestudio
                   </button>
                   <button
                     type="button"
-                    onClick={() => setSelectedPlanTab('self-paced')}
+                    onClick={() => setSelectedPlanTab('grupal')}
                     style={{
                       border: 'none',
-                      background: selectedPlanTab === 'self-paced' ? 'var(--primary)' : 'transparent',
-                      color: selectedPlanTab === 'self-paced' ? '#fff' : 'var(--text-secondary)',
-                      padding: '0.3rem 0.75rem',
+                      background: selectedPlanTab === 'grupal' ? 'var(--primary)' : 'transparent',
+                      color: selectedPlanTab === 'grupal' ? '#fff' : 'var(--text-secondary)',
+                      padding: '0.3rem 0.65rem',
                       borderRadius: '99px',
                       cursor: 'pointer',
                       fontWeight: 600,
                       transition: 'var(--transition-smooth)'
                     }}
                   >
-                    A tu ritmo
+                    Grupal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPlanTab('mentoria')}
+                    style={{
+                      border: 'none',
+                      background: selectedPlanTab === 'mentoria' ? 'var(--primary)' : 'transparent',
+                      color: selectedPlanTab === 'mentoria' ? '#fff' : 'var(--text-secondary)',
+                      padding: '0.3rem 0.65rem',
+                      borderRadius: '99px',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      transition: 'var(--transition-smooth)'
+                    }}
+                  >
+                    1 a 1
                   </button>
                 </div>
               </div>
 
-              {/* Display active plan tab */}
+              {/* Display active plan card */}
               {(() => {
                 const activePlan = LEARNING_PLANS[selectedPlanTab];
                 const isRecommended = recommendedPlan.id === activePlan.id;
@@ -343,7 +360,7 @@ export default function OnboardingPage() {
                         <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
                           {activePlan.name}
                         </h4>
-                        <span style={{ fontSize: '0.82rem', color: 'var(--primary)', fontWeight: 600 }}>
+                        <span style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 700 }}>
                           {activePlan.priceNote}
                         </span>
                       </div>
@@ -400,7 +417,7 @@ export default function OnboardingPage() {
                 className={styles.navBtn}
                 style={{ alignSelf: 'center', fontSize: '0.85rem' }}
               >
-                🔄 Repetir test de preguntas
+                🔄 Repetir test
               </button>
             </div>
           </div>

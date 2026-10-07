@@ -33,9 +33,9 @@ export default async function Home() {
             <Link href={`/courses/${course.id}`} className="btn btn-primary hero-btn">
               🚀 Comenzar ahora (Sin conocimientos previos)
             </Link>
-            <Link href="/onboarding" className="btn btn-secondary hero-btn hero-btn-test">
-              🎯 Test de Estilo: Descubre tu Perfil (1 min)
-            </Link>
+            <a href="#precios" className="btn btn-secondary hero-btn">
+              🏷️ Ver Planes y Precios
+            </a>
           </div>
 
           <div className="hero-trust-badges animate-fade-in delay-3">
@@ -141,68 +141,120 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Pricing Section */}
+        {/* Pricing Section (Harmonized 3 Tiers) */}
         <section id="precios" className="container section-spacing" aria-labelledby="pricing-title">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2 id="pricing-title">Invierte en tu mente</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.75rem' }}>Sin matrículas ocultas ni ataduras. Cancela cuando quieras en 1 clic.</p>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              PLANES TRANSPARENTES
+            </span>
+            <h2 id="pricing-title" style={{ marginTop: '0.5rem' }}>Elige el nivel de acompañamiento que necesitas</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.75rem', maxWidth: '620px', margin: '0.75rem auto 0 auto' }}>
+              Sin permanencias ni letra pequeña. Cancela o cambia de plan en cualquier momento en 1 clic.
+            </p>
           </div>
 
           <div className="pricing-grid">
+            
+            {/* TIER 1: Autoestudio */}
             <div className="glass-panel card pricing-card flex-col">
-              <h3 style={{ fontSize: '1.2rem', color: 'var(--text-secondary)' }}>Membresía Mensual</h3>
-              <div className="pricing-number">
-                19€<span className="pricing-period">/mes</span>
+              <div className="pricing-header">
+                <span className="tier-tag">Nivel 1</span>
+                <h3 className="tier-title">Autoestudio</h3>
+                <p className="tier-subtitle">Para aprender a tu ritmo sin horarios fijos</p>
               </div>
+
+              <div className="pricing-number">
+                29€<span className="pricing-period">/mes</span>
+              </div>
+
+              <div className="tier-divider" />
+
               <ul className="pricing-list">
-                <li>✓ Acceso total al curso de Java</li>
-                <li>✓ Explicaciones adaptadas (3 perspectivas)</li>
-                <li>✓ Prácticas interactivas y soluciones</li>
-                <li>✓ Cancela en cualquier momento</li>
+                <li>✓ <strong>Catálogo completo grabado</strong> (todos los cursos)</li>
+                <li>✓ <strong>3 perspectivas explicativas</strong> (visual, lógica, técnica)</li>
+                <li>✓ <strong>Canal de dudas asíncrono</strong> con soporte de comunidad</li>
+                <li>✓ <strong>Prácticas y retos guiados</strong> en el navegador</li>
+                <li>✓ <strong>0 horas de directo:</strong> máxima flexibilidad horaria</li>
               </ul>
-              <Link href={`/courses/${course.id}`} className="btn btn-secondary" style={{ width: '100%', minHeight: '44px' }}>
-                Elegir Plan Mensual
-              </Link>
+
+              <div className="pricing-footer">
+                <Link href="/register?plan=autoestudio" className="btn btn-secondary pricing-action-btn">
+                  Elegir Autoestudio
+                </Link>
+              </div>
             </div>
 
-            <div className="glass-panel card pricing-card flex-col" style={{ border: '1.5px solid var(--primary)', position: 'relative' }}>
+            {/* TIER 2: Bootcamp / Grupal (Destacado) */}
+            <div className="glass-panel card pricing-card pricing-card-featured flex-col">
               <div className="pricing-tag-featured">
-                RECOMENDADO
+                🔥 MÁS POPULAR
               </div>
-              <h3 style={{ fontSize: '1.2rem', color: 'var(--primary)' }}>Membresía Anual</h3>
+
+              <div className="pricing-header">
+                <span className="tier-tag" style={{ color: 'var(--primary)' }}>Nivel 2</span>
+                <h3 className="tier-title" style={{ color: 'var(--text-primary)' }}>Bootcamp Grupal</h3>
+                <p className="tier-subtitle">Tutorías en vivo en grupos reducidos de 5</p>
+              </div>
+
               <div className="pricing-number">
-                149€<span className="pricing-period">/año</span>
+                59€<span className="pricing-period">/mes</span>
               </div>
+
+              <div className="tier-divider" />
+
               <ul className="pricing-list">
-                <li>✓ <strong style={{ color: 'var(--text-primary)' }}>Ahorras 2 meses</strong> al año</li>
-                <li>✓ Acceso total a todos los cursos</li>
-                <li>✓ Explicaciones alternativas sin límite</li>
-                <li>✓ Soporte para dudas con el profesor</li>
+                <li>✓ <strong>Todo lo del Plan Autoestudio</strong> incluido</li>
+                <li>✓ <strong>2 tutorías grupales al mes (60 min)</strong> en grupos de 5</li>
+                <li>✓ <strong>1 webinar temático mensual</strong> en directo</li>
+                <li>✓ <strong>Horarios fijos semanales</strong> (sesiones grabadas)</li>
+                <li>✓ <strong>Revisión de dudas y feedback</strong> de proyectos en grupo</li>
               </ul>
-              <Link href={`/courses/${course.id}`} className="btn btn-primary" style={{ width: '100%', minHeight: '44px' }}>
-                Elegir Plan Anual
-              </Link>
+
+              <div className="pricing-footer">
+                <Link href="/register?plan=grupal" className="btn btn-primary pricing-action-btn">
+                  Elegir Plan Grupal
+                </Link>
+              </div>
             </div>
 
-            <div className="glass-panel card pricing-card flex-col" style={{ border: '1.5px solid #f59e0b', position: 'relative', background: 'linear-gradient(180deg, rgba(245, 158, 11, 0.06) 0%, rgba(26, 29, 36, 0.85) 100%)' }}>
-              <div className="pricing-tag-live">
-                🔥 SESIÓN EN DIRECTO
+            {/* TIER 3: Mentoría 1 a 1 (Cupo limitado) */}
+            <div className="glass-panel card pricing-card pricing-card-limited flex-col">
+              <div className="pricing-tag-limited">
+                ⚡ SOLO 6 PLAZAS AL MES
               </div>
-              <h3 style={{ fontSize: '1.2rem', color: '#f59e0b' }}>Mentoría Live Semanal</h3>
-              <div className="pricing-number" style={{ fontSize: 'clamp(1.75rem, 5vw, 2.2rem)' }}>
-                1h / Semana
-                <span className="pricing-period" style={{ display: 'block', fontSize: '0.85rem' }}>En vivo con el profesor</span>
+
+              <div className="pricing-header">
+                <span className="tier-tag" style={{ color: '#f59e0b' }}>Nivel 3</span>
+                <h3 className="tier-title" style={{ color: 'var(--text-primary)' }}>Mentoría 1 a 1</h3>
+                <p className="tier-subtitle">Acompañamiento individual con el profesor</p>
               </div>
+
+              <div className="pricing-number">
+                149€<span className="pricing-period">/mes</span>
+              </div>
+
+              <div className="tier-divider" />
+
               <ul className="pricing-list">
-                <li>✓ <strong>1 sesión semanal de 1 hora</strong> en directo</li>
-                <li>✓ Resolución de dudas y revisión de código</li>
-                <li>✓ Feedback directo y networking con alumnos</li>
-                <li>✓ Incluye todo el material y cursos adaptados</li>
+                <li>✓ <strong>Todo lo del Plan Grupal</strong> (catálogo + webinar)</li>
+                <li>✓ <strong>2 sesiones privadas 1 a 1 de 45 min</strong> al mes conmigo</li>
+                <li>✓ <strong>Revisión individual y auditoría</strong> de tu código</li>
+                <li>✓ <strong>Resolución directa de bloqueos</strong> en pantalla compartida</li>
+                <li>✓ <strong>Seguimiento de carrera</strong> y asesoramiento directo</li>
               </ul>
-              <Link href="/onboarding" className="btn btn-secondary" style={{ width: '100%', minHeight: '44px', border: '1px solid #f59e0b', color: '#f59e0b' }}>
-                🎯 Hacer Test y Solicitar Plaza
-              </Link>
+
+              <div className="pricing-footer">
+                <Link href="/contacto?asunto=mentoria-1a1" className="btn btn-secondary pricing-action-btn pricing-btn-gold">
+                  Solicitar Plaza 1 a 1
+                </Link>
+              </div>
             </div>
+
+          </div>
+
+          {/* Operational clarity note */}
+          <div style={{ textAlign: 'center', marginTop: '2.5rem', color: 'var(--text-secondary)', fontSize: '0.88rem', maxWidth: '750px', margin: '2.5rem auto 0 auto', lineHeight: 1.6 }}>
+            💡 <em>Las tutorías grupales cuentan con horarios semanales fijos y se graban íntegras para que nunca te pierdas nada. Las sesiones 1 a 1 se agendan de forma prioritaria con 15 min de margen entre citas.</em>
           </div>
         </section>
 
@@ -288,10 +340,6 @@ export default async function Home() {
           text-align: center;
         }
 
-        .hero-btn-test {
-          border: 1px solid var(--primary);
-        }
-
         .hero-trust-badges {
           display: flex;
           justify-content: center;
@@ -317,69 +365,162 @@ export default async function Home() {
           padding: clamp(1.35rem, 4vw, 2rem);
         }
 
+        /* Harmonized Pricing Grid */
         .pricing-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          grid-template-columns: repeat(3, 1fr);
           gap: 1.5rem;
-          justify-content: center;
-          max-width: 1100px;
+          align-items: stretch;
+          max-width: 1140px;
           margin: 0 auto;
         }
 
         .pricing-card {
-          padding: clamp(1.6rem, 5vw, 2.3rem);
+          padding: clamp(1.75rem, 3vw, 2.3rem);
           width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          border-radius: 20px;
+          position: relative;
+          background: var(--glass-bg);
+          border: 1px solid var(--glass-border);
+          box-shadow: var(--glass-shadow);
+          transition: var(--transition-smooth);
+        }
+
+        .pricing-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .pricing-card-featured {
+          border: 1.5px solid var(--primary);
+          background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(26, 29, 36, 0.9) 100%);
+          box-shadow: 0 12px 35px var(--primary-glow);
+        }
+
+        .pricing-card-limited {
+          border: 1.5px solid rgba(245, 158, 11, 0.6);
+          background: linear-gradient(180deg, rgba(245, 158, 11, 0.06) 0%, rgba(26, 29, 36, 0.9) 100%);
         }
 
         .pricing-tag-featured {
           position: absolute;
-          top: -14px;
+          top: -13px;
           left: 50%;
           transform: translateX(-50%);
           background: var(--primary);
           color: white;
-          padding: 0.25rem 1.25rem;
+          padding: 0.25rem 1.15rem;
           border-radius: 99px;
-          font-size: 0.78rem;
-          font-weight: 700;
+          font-size: 0.74rem;
+          font-weight: 800;
           letter-spacing: 0.5px;
+          white-space: nowrap;
         }
 
-        .pricing-tag-live {
+        .pricing-tag-limited {
           position: absolute;
-          top: -14px;
+          top: -13px;
           left: 50%;
           transform: translateX(-50%);
           background: #f59e0b;
           color: #000;
-          padding: 0.25rem 1.25rem;
+          padding: 0.25rem 1.15rem;
           border-radius: 99px;
-          font-size: 0.78rem;
+          font-size: 0.74rem;
           font-weight: 800;
           letter-spacing: 0.5px;
+          white-space: nowrap;
+        }
+
+        .pricing-header {
+          margin-bottom: 0.5rem;
+        }
+
+        .tier-tag {
+          font-size: 0.78rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: var(--text-secondary);
+          display: block;
+          margin-bottom: 0.25rem;
+        }
+
+        .tier-title {
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin: 0 0 0.35rem 0;
+        }
+
+        .tier-subtitle {
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+          margin: 0;
+          min-height: 2.4em;
+          line-height: 1.4;
         }
 
         .pricing-number {
-          font-size: clamp(2.3rem, 6vw, 3rem);
+          font-size: clamp(2.4rem, 4vw, 2.9rem);
           font-weight: 800;
-          margin: 1rem 0;
+          margin: 1.15rem 0 0.5rem 0;
           color: var(--text-primary);
-          line-height: 1.1;
+          line-height: 1;
         }
 
         .pricing-period {
           font-size: 0.95rem;
           color: var(--text-secondary);
           font-weight: 400;
+          margin-left: 0.25rem;
+        }
+
+        .tier-divider {
+          height: 1px;
+          background: var(--glass-border);
+          margin: 1.25rem 0;
+          width: 100%;
         }
 
         .pricing-list {
           list-style: none;
           padding: 0;
-          margin: 0 0 1.75rem 0;
+          margin: 0 0 2rem 0;
           color: var(--text-secondary);
-          line-height: 1.8;
-          font-size: 0.92rem;
+          line-height: 1.75;
+          font-size: 0.9rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+          flex: 1;
+        }
+
+        .pricing-list li strong {
+          color: var(--text-primary);
+        }
+
+        .pricing-footer {
+          margin-top: auto;
+          width: 100%;
+        }
+
+        .pricing-action-btn {
+          width: 100%;
+          min-height: 46px;
+          font-size: 0.95rem;
+          font-weight: 600;
+        }
+
+        .pricing-btn-gold {
+          border: 1px solid #f59e0b;
+          color: #f59e0b;
+        }
+
+        .pricing-btn-gold:hover {
+          background: rgba(245, 158, 11, 0.15);
         }
 
         .cta-banner {
@@ -418,6 +559,16 @@ export default async function Home() {
           padding: 0.8rem 2rem;
           font-size: 1rem;
           font-weight: 600;
+        }
+
+        @media (max-width: 980px) {
+          .pricing-grid {
+            grid-template-columns: 1fr;
+            max-width: 480px;
+          }
+          .tier-subtitle {
+            min-height: auto;
+          }
         }
 
         @media (max-width: 640px) {
