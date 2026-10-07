@@ -150,28 +150,28 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="flex justify-center gap-4" style={{ flexWrap: 'wrap' }}>
+          <div className="pricing-grid">
             
             {/* TIER 1: Autoestudio */}
-            <div className="glass-panel card flex-col" style={{ padding: '2.5rem', width: '100%', maxWidth: '360px' }}>
+            <div className="glass-panel card flex-col" style={{ padding: '2.5rem 1.75rem', width: '100%', display: 'flex', flexDirection: 'column', height: '100%' }}>
               <h3 style={{ fontSize: '1.25rem', color: 'var(--text-secondary)' }}>Tier 1: Autoestudio</h3>
               <div style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0', color: 'var(--text-primary)' }}>
                 29€<span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 400 }}>/mes</span>
               </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', color: 'var(--text-secondary)', lineHeight: '2' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', color: 'var(--text-secondary)', lineHeight: '2', flexGrow: 1 }}>
                 <li>✓ Acceso total al catálogo grabado</li>
                 <li>✓ Explicaciones adaptadas (3 perspectivas)</li>
                 <li>✓ Canal de dudas asíncrono con soporte</li>
                 <li>✓ Prácticas interactivas y retos resueltos</li>
                 <li>✓ 0 horas en directo (a tu propio ritmo)</li>
               </ul>
-              <Link href={`/courses/${course.id}`} className="btn btn-secondary" style={{ width: '100%', minHeight: '44px' }}>
+              <Link href={`/courses/${course.id}`} className="btn btn-secondary" style={{ width: '100%', minHeight: '44px', marginTop: 'auto' }}>
                 Elegir Autoestudio
               </Link>
             </div>
 
             {/* TIER 2: Bootcamp Grupal */}
-            <div className="glass-panel card flex-col" style={{ padding: '2.5rem', width: '100%', maxWidth: '360px', border: '1px solid var(--primary)', position: 'relative' }}>
+            <div className="glass-panel card flex-col" style={{ padding: '2.5rem 1.75rem', width: '100%', border: '1px solid var(--primary)', position: 'relative', display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: 'var(--primary)', color: 'white', padding: '0.25rem 1.25rem', borderRadius: '99px', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.5px' }}>
                 RECOMENDADO
               </div>
@@ -179,20 +179,20 @@ export default async function Home() {
               <div style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0', color: 'var(--text-primary)' }}>
                 59€<span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 400 }}>/mes</span>
               </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', color: 'var(--text-secondary)', lineHeight: '2' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', color: 'var(--text-secondary)', lineHeight: '2', flexGrow: 1 }}>
                 <li>✓ Todo lo incluido en Autoestudio</li>
                 <li>✓ 2 tutorías grupales/mes (60 min, grupos de 5)</li>
                 <li>✓ 1 webinar temático mensual en directo</li>
                 <li>✓ Horarios fijos semanales (sesiones grabadas)</li>
                 <li>✓ Feedback directo y resolución de dudas</li>
               </ul>
-              <Link href={`/courses/${course.id}`} className="btn btn-primary" style={{ width: '100%', minHeight: '44px' }}>
+              <Link href={`/courses/${course.id}`} className="btn btn-primary" style={{ width: '100%', minHeight: '44px', marginTop: 'auto' }}>
                 Elegir Plan Grupal
               </Link>
             </div>
 
             {/* TIER 3: Mentoría 1 a 1 */}
-            <div className="glass-panel card flex-col" style={{ padding: '2.5rem', width: '100%', maxWidth: '360px', border: '1px solid var(--glass-border)', position: 'relative' }}>
+            <div className="glass-panel card flex-col" style={{ padding: '2.5rem 1.75rem', width: '100%', border: '1px solid var(--glass-border)', position: 'relative', display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.25rem 1.25rem', borderRadius: '99px', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.5px' }}>
                 SOLO 6 PLAZAS/MES
               </div>
@@ -200,14 +200,14 @@ export default async function Home() {
               <div style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0', color: 'var(--text-primary)' }}>
                 149€<span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 400 }}>/mes</span>
               </div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', color: 'var(--text-secondary)', lineHeight: '2' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', color: 'var(--text-secondary)', lineHeight: '2', flexGrow: 1 }}>
                 <li>✓ Todo lo incluido en el Plan Grupal</li>
                 <li>✓ 2 sesiones privadas 1 a 1 de 45 min/mes</li>
                 <li>✓ Revisión y auditoría de tu código en vivo</li>
                 <li>✓ Resolución de bloqueos por videollamada</li>
                 <li>✓ Seguimiento y asesoramiento de carrera</li>
               </ul>
-              <Link href="/contacto" className="btn btn-secondary" style={{ width: '100%', minHeight: '44px' }}>
+              <Link href="/contacto" className="btn btn-secondary" style={{ width: '100%', minHeight: '44px', marginTop: 'auto' }}>
                 Solicitar Plaza 1 a 1
               </Link>
             </div>

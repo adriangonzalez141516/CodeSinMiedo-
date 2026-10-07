@@ -117,6 +117,25 @@ h2 {
   box-shadow: var(--glass-shadow);
 }
 
+/* Pricing 3-columns grid for desktop */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+@media (max-width: 992px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+  }
+}
+
+
 .btn {
   display: inline-flex;
   align-items: center;
