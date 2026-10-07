@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { Course, Module, Lesson, COURSES } from '../mocks/db';
+import { Course, Module, Lesson, mockCourses } from '../mocks/db';
 
 // Mapea los datos de Supabase (snake_case) al formato del frontend (camelCase)
 function mapCourseFromDB(dbCourse: any): Course {
@@ -56,7 +56,7 @@ export async function getCourses(): Promise<Course[]> {
 
     if (error || !courses || courses.length === 0) {
       console.warn('Supabase courses not found or error, using fallback:', error?.message);
-      return COURSES;
+      return mockCourses;
     }
 
     courses.forEach(c => {
@@ -69,7 +69,7 @@ export async function getCourses(): Promise<Course[]> {
     return courses.map(mapCourseFromDB);
   } catch (err) {
     console.error('Error in getCourses, using fallback:', err);
-    return COURSES;
+    return mockCourses;
   }
 }
 
@@ -92,7 +92,7 @@ export async function getCourseById(id: string): Promise<Course | null> {
       .single();
 
     if (error || !course) {
-      return COURSES.find(c => c.id === id) || COURSES[0] || null;
+      return mockCourses.find(c => c.id === id) || mockCourses[0] || null;
     }
 
     course.modules?.sort((a: any, b: any) => a.order_index - b.order_index);
@@ -103,7 +103,7 @@ export async function getCourseById(id: string): Promise<Course | null> {
     return mapCourseFromDB(course);
   } catch (err) {
     console.error('Error in getCourseById, using fallback:', err);
-    return COURSES.find(c => c.id === id) || COURSES[0] || null;
+    return mockCourses.find(c => c.id === id) || mockCourses[0] || null;
   }
 }
 
