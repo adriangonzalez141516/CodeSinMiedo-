@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { Course, Module, Lesson } from '../mocks/db';
+import { Course, Module, Lesson, COURSES } from '../mocks/db';
 
 // Mapea los datos de Supabase (snake_case) al formato del frontend (camelCase)
 function mapCourseFromDB(dbCourse: any): Course {
@@ -39,69 +39,80 @@ function mapCourseFromDB(dbCourse: any): Course {
 }
 
 export async function getCourses(): Promise<Course[]> {
-  const { data: courses, error } = await supabase
-    .from('courses')
-    .select(`
-      *,
-      modules (
+  try {
+    const { data: courses, error } = await supabase
+      .from('courses')
+      .select(`
         *,
-        lessons (
+        modules (
           *,
-          alternative_explanations (*),
-          practices (*)
+          lessons (
+            *,
+            alternative_explanations (*),
+            practices (*)
+          )
         )
-      )
-    `);
+      `);
 
-  if (error) {
-    console.error('Error fetching courses:', error);
-    return [];
-  }
+    if (error || !courses || courses.length === 0) {
+      console.warn('Supabase courses not found or error, using fallback:', error?.message);
+      return COURSES;
+    }
 
-  // Ordenar módulos y lecciones (Supabase no garantiza orden en anidados sin un order explícito)
-  courses.forEach(c => {
-    c.modules.sort((a: any, b: any) => a.order_index - b.order_index);
-    c.modules.forEach((m: any) => {
-      m.lessons.sort((a: any, b: any) => a.order_index - b.order_index);
+    courses.forEach(c => {
+      c.modules?.sort((a: any, b: any) => a.order_index - b.order_index);
+      c.modules?.forEach((m: any) => {
+        m.lessons?.sort((a: any, b: any) => a.order_index - b.order_index);
+      });
     });
-  });
 
-  return courses.map(mapCourseFromDB);
+    return courses.map(mapCourseFromDB);
+  } catch (err) {
+    console.error('Error in getCourses, using fallback:', err);
+    return COURSES;
+  }
 }
 
 export async function getCourseById(id: string): Promise<Course | null> {
-  const { data: course, error } = await supabase
-    .from('courses')
-    .select(`
-      *,
-      modules (
+  try {
+    const { data: course, error } = await supabase
+      .from('courses')
+      .select(`
         *,
-        lessons (
+        modules (
           *,
-          alternative_explanations (*),
-          practices (*)
+          lessons (
+            *,
+            alternative_explanations (*),
+            practices (*)
+          )
         )
-      )
-    `)
-    .eq('id', id)
-    .single();
+      `)
+      .eq('id', id)
+      .single();
 
-  if (error || !course) return null;
+    if (error || !course) {
+      return COURSES.find(c => c.id === id) || COURSES[0] || null;
+    }
 
-  course.modules.sort((a: any, b: any) => a.order_index - b.order_index);
-  course.modules.forEach((m: any) => {
-    m.lessons.sort((a: any, b: any) => a.order_index - b.order_index);
-  });
+    course.modules?.sort((a: any, b: any) => a.order_index - b.order_index);
+    course.modules?.forEach((m: any) => {
+      m.lessons?.sort((a: any, b: any) => a.order_index - b.order_index);
+    });
 
-  return mapCourseFromDB(course);
+    return mapCourseFromDB(course);
+  } catch (err) {
+    console.error('Error in getCourseById, using fallback:', err);
+    return COURSES.find(c => c.id === id) || COURSES[0] || null;
+  }
 }
 
 export async function getLessonById(courseId: string, moduleId: string, lessonId: string): Promise<Lesson | null> {
   const course = await getCourseById(courseId);
   if (!course) return null;
   
-  const module = course.modules.find(m => m.id === moduleId);
+  const module = course.modules?.find(m => m.id === moduleId);
   if (!module) return null;
   
-  return module.lessons.find(l => l.id === lessonId) || null;
+  return module.lessons?.find(l => l.id === lessonId) || null;
 }
