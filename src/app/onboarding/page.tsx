@@ -235,58 +235,23 @@ export default function OnboardingPage() {
           <div className={styles.resultContainer}>
             <div className={styles.resultBadgeHeader}>
               <div className={styles.resultIconLg}>{resultProfile.icon}</div>
-              <span style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
-                Tu Perfil de Aprendizaje
+              <span style={{ fontSize: '0.82rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Tu Perfil Asignado
               </span>
               <h1 style={{ fontSize: '1.75rem', margin: '0.35rem 0', color: 'var(--text-primary)' }}>
                 {resultProfile.title}
               </h1>
-            </div>
-
-            {/* Profile Card */}
-            <div
-              className={styles.resultProfileCard}
-              style={{
-                borderColor: resultProfile.accentColor,
-                '--card-gradient': resultProfile.gradient
-              } as React.CSSProperties}
-            >
-              <span className={styles.profileTag} style={{ color: resultProfile.accentColor }}>
-                {resultProfile.tag}
-              </span>
-              <p className={styles.profileHeadline}>
-                {resultProfile.headline}
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: '0.4rem 0 0' }}>
+                ✨ {resultProfile.priorityAdvice}
               </p>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                {resultProfile.description}
-              </p>
-
-              <div className={styles.powersList}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
-                  Tus Fortalezas Clave:
-                </div>
-                {resultProfile.superpowers.map((power, idx) => (
-                  <div key={idx} className={styles.powerItem}>
-                    <span>⚡</span> {power}
-                  </div>
-                ))}
-              </div>
             </div>
 
-            {/* Adaptation Alert */}
-            <div className={styles.adaptationBanner}>
-              <span className={styles.adaptationBannerIcon}>✨</span>
-              <div className={styles.adaptationBannerText}>
-                <strong>Adaptación activa:</strong> {resultProfile.priorityAdvice}
-              </div>
-            </div>
-
-            {/* Plan Recommendation Section */}
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                <h3 style={{ fontSize: '1.05rem', margin: 0, color: 'var(--text-primary)' }}>
-                  Plan Sugerido para Ti
-                </h3>
+            {/* Plan Recommendation Section (matching exact website pricing card format) */}
+            <div style={{ marginTop: '0.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Plan Seleccionado
+                </span>
 
                 {/* 3 Tiers Toggle */}
                 <div style={{ display: 'flex', background: 'var(--bg-accent)', padding: '3px', borderRadius: '99px', fontSize: '0.74rem' }}>
@@ -341,47 +306,50 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              {/* Display active plan card */}
+              {/* Exact format of website pricing card */}
               {(() => {
                 const activePlan = LEARNING_PLANS[selectedPlanTab];
                 const isRecommended = recommendedPlan.id === activePlan.id;
+                const isGrupal = activePlan.id === 'grupal';
 
                 return (
-                  <div className={`${styles.planBox} ${isRecommended ? styles.planBoxHighlight : ''}`}>
+                  <div 
+                    className="glass-panel card flex-col" 
+                    style={{ 
+                      padding: '2rem 1.5rem', 
+                      width: '100%', 
+                      border: isGrupal ? '1px solid var(--primary)' : '1px solid var(--glass-border)', 
+                      position: 'relative' 
+                    }}
+                  >
                     {isRecommended && (
-                      <div className={styles.planBadge}>
-                        Recomendado para ti
+                      <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: 'var(--primary)', color: 'white', padding: '0.2rem 1.1rem', borderRadius: '99px', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.5px' }}>
+                        RECOMENDADO
                       </div>
                     )}
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <span style={{ fontSize: '1.8rem' }}>{activePlan.icon}</span>
-                      <div>
-                        <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
-                          {activePlan.name}
-                        </h4>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 700 }}>
-                          {activePlan.priceNote}
-                        </span>
-                      </div>
+                    <h3 style={{ fontSize: '1.25rem', color: isGrupal ? 'var(--primary)' : 'var(--text-secondary)', margin: 0 }}>
+                      {activePlan.name}
+                    </h3>
+
+                    <div style={{ fontSize: '2.8rem', fontWeight: 800, margin: '0.75rem 0', color: 'var(--text-primary)' }}>
+                      {activePlan.priceNote.replace(' €/mes', '€').replace(' €', '€')}
+                      <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 400 }}>/mes</span>
                     </div>
 
-                    <p style={{ margin: 0, fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: 1.45 }}>
-                      {activePlan.headline}
-                    </p>
-
-                    <ul className={styles.planFeatures}>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem 0', color: 'var(--text-secondary)', lineHeight: '2', fontSize: '0.9rem' }}>
                       {activePlan.features.map((feat, idx) => (
-                        <li key={idx} className={styles.planFeatureItem}>
-                          <span>✓</span>
-                          <div>{feat}</div>
-                        </li>
+                        <li key={idx}>✓ {feat}</li>
                       ))}
                     </ul>
 
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontStyle: 'italic', background: 'var(--bg-accent)', padding: '0.5rem 0.75rem', borderRadius: '10px' }}>
-                      💡 {activePlan.recommendedIf}
-                    </div>
+                    <Link
+                      href="/courses/java-zero-to-hero"
+                      className={`btn ${isGrupal ? 'btn-primary' : 'btn-secondary'}`}
+                      style={{ width: '100%', minHeight: '44px', textAlign: 'center' }}
+                    >
+                      Empezar con {activePlan.name}
+                    </Link>
                   </div>
                 );
               })()}
@@ -389,14 +357,6 @@ export default function OnboardingPage() {
 
             {/* Action buttons */}
             <div className={styles.actionStack}>
-              <Link
-                href="/courses/java-zero-to-hero"
-                className="btn btn-primary"
-                style={{ textAlign: 'center', width: '100%', padding: '0.9rem' }}
-              >
-                🚀 Comenzar Curso Adaptado a {resultProfile.title}
-              </Link>
-
               {!user ? (
                 <Link
                   href="/register"
