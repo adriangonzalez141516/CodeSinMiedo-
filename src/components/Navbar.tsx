@@ -29,6 +29,7 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+    closeMobileMenu();
     router.refresh();
   };
 
@@ -44,7 +45,7 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
     <header role="banner" style={{ position: 'sticky', top: 0, zIndex: 100 }}>
       <nav className="navbar" aria-label="Navegación principal">
         <div className="container nav-container">
-          <Link href="/" className="nav-brand" aria-label="DevProfesor - Inicio" onClick={closeMobileMenu}>
+          <Link href="/" className="nav-brand" aria-label="CodeSinMiedo - Inicio" onClick={closeMobileMenu}>
             <span className="text-gradient">Code</span>SinMiedo
           </Link>
 
@@ -82,9 +83,9 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
           {/* Mobile Right Controls */}
           <div className="nav-mobile-controls">
             {!user ? (
-              <Link href="/login" className="btn btn-secondary nav-mobile-cta">Entrar</Link>
+              <Link href="/login" className="btn btn-secondary nav-mobile-cta" onClick={closeMobileMenu}>Entrar</Link>
             ) : (
-              <Link href={`/courses/${courseId}`} className="btn btn-primary nav-mobile-cta">Cursos</Link>
+              <Link href={`/courses/${courseId}`} className="btn btn-primary nav-mobile-cta" onClick={closeMobileMenu}>Cursos</Link>
             )}
 
             <button
@@ -95,40 +96,88 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
               aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
               ) : (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
               )}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Dropdown Drawer */}
         {mobileMenuOpen && (
-          <div className="nav-mobile-dropdown">
-            <div className="container nav-mobile-menu-inner">
-              <Link href="/onboarding" className="nav-mobile-link" style={{ color: 'var(--primary)', fontWeight: 700 }} onClick={closeMobileMenu}>
-                🎯 Test de Estilo (Descubre tu perfil)
-              </Link>
-              <Link href="/#metodologia" className="nav-mobile-link" onClick={closeMobileMenu}>Metodología</Link>
-              <Link href="/#faq" className="nav-mobile-link" onClick={closeMobileMenu}>Preguntas Frecuentes</Link>
-              <Link href="/#precios" className="nav-mobile-link" onClick={closeMobileMenu}>Precios y Planes</Link>
-              <Link href="/contacto" className={`nav-mobile-link ${pathname === '/contacto' ? 'active' : ''}`} onClick={closeMobileMenu}>Contacto con el Profesor</Link>
-              <div style={{ paddingTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {user ? (
-                  <>
-                    <Link href={`/courses/${courseId}`} className="btn btn-primary" style={{ width: '100%', minHeight: '44px' }} onClick={closeMobileMenu}>Mis Cursos</Link>
-                    <button onClick={() => { handleSignOut(); closeMobileMenu(); }} className="btn btn-secondary" style={{ width: '100%', minHeight: '44px' }}>Cerrar Sesión</button>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/login" className="btn btn-secondary" style={{ width: '100%', minHeight: '44px' }} onClick={closeMobileMenu}>Iniciar Sesión</Link>
-                    <Link href="/register" className="btn btn-primary" style={{ width: '100%', minHeight: '44px' }} onClick={closeMobileMenu}>Crear Cuenta Libre</Link>
-                  </>
-                )}
+          <>
+            <div className="nav-mobile-backdrop" onClick={closeMobileMenu} />
+            <div className="nav-mobile-dropdown">
+              <div className="nav-mobile-drawer">
+                {/* Highlighted Diagnostic Test Link */}
+                <Link href="/onboarding" className="nav-mobile-highlight-link" onClick={closeMobileMenu}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <span style={{ fontSize: '1.4rem' }}>🎯</span>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: '0.98rem', color: 'var(--text-primary)' }}>Test de Estilo de Aprendizaje</div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Descubre si eres Visual, Técnico o Realista</div>
+                    </div>
+                  </div>
+                  <span style={{ color: 'var(--primary)', fontWeight: 800 }}>→</span>
+                </Link>
+
+                <div className="nav-mobile-section-title">Navegación</div>
+
+                <Link href="/#metodologia" className="nav-mobile-link" onClick={closeMobileMenu}>
+                  <span>💡 Metodología Didáctica</span>
+                  <span className="arrow-indicator">›</span>
+                </Link>
+
+                <Link href="/#faq" className="nav-mobile-link" onClick={closeMobileMenu}>
+                  <span>❓ Preguntas Frecuentes</span>
+                  <span className="arrow-indicator">›</span>
+                </Link>
+
+                <Link href="/#precios" className="nav-mobile-link" onClick={closeMobileMenu}>
+                  <span>🏷️ Precios y Planes</span>
+                  <span className="arrow-indicator">›</span>
+                </Link>
+
+                <Link href="/contacto" className={`nav-mobile-link ${pathname === '/contacto' ? 'active' : ''}`} onClick={closeMobileMenu}>
+                  <span>✉️ Contacto con el Profesor</span>
+                  <span className="arrow-indicator">›</span>
+                </Link>
+
+                <div className="nav-mobile-divider" />
+
+                {/* Account Actions */}
+                <div className="nav-mobile-auth-actions">
+                  {user ? (
+                    <>
+                      <Link href={`/courses/${courseId}`} className="btn btn-primary" style={{ width: '100%', minHeight: '48px', fontSize: '1rem' }} onClick={closeMobileMenu}>
+                        🎓 Ir a Mis Cursos
+                      </Link>
+                      <button onClick={handleSignOut} className="btn btn-secondary" style={{ width: '100%', minHeight: '44px', fontSize: '0.95rem' }}>
+                        Cerrar Sesión
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/register" className="btn btn-primary" style={{ width: '100%', minHeight: '48px', fontSize: '1rem' }} onClick={closeMobileMenu}>
+                        🚀 Crear Cuenta Gratis
+                      </Link>
+                      <Link href="/login" className="btn btn-secondary" style={{ width: '100%', minHeight: '44px', fontSize: '0.95rem' }} onClick={closeMobileMenu}>
+                        Iniciar Sesión
+                      </Link>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </nav>
 
@@ -170,15 +219,16 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
         }
 
         .nav-mobile-cta {
-          min-height: 36px;
-          padding: 0.4rem 0.9rem;
-          font-size: 0.85rem;
+          min-height: 38px;
+          padding: 0.45rem 1rem;
+          font-size: 0.88rem;
+          font-weight: 600;
         }
 
         .nav-hamburger-btn {
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
           border: 1px solid var(--glass-border);
           background: var(--bg-accent);
           color: var(--text-primary);
@@ -191,54 +241,141 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
 
         .nav-hamburger-btn:hover {
           background: var(--bg-secondary);
+          border-color: var(--primary);
         }
 
+        /* Mobile Backdrop Overlay */
+        .nav-mobile-backdrop {
+          position: fixed;
+          top: 65px;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.65);
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+          z-index: 105;
+        }
+
+        /* Mobile Dropdown Drawer */
         .nav-mobile-dropdown {
-          background: var(--glass-bg);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border-bottom: 1px solid var(--glass-border);
-          padding: 1rem 0 1.5rem 0;
-          animation: slideDown 0.25s ease-out;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          width: 100%;
+          background: var(--bg-secondary);
+          border-bottom: 2px solid var(--glass-border);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+          z-index: 110;
+          max-height: calc(100vh - 72px);
+          overflow-y: auto;
+          animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .nav-mobile-menu-inner {
+        .nav-mobile-drawer {
+          display: flex !important;
+          flex-direction: column !important;
+          padding: 1.25rem 1.25rem 2rem 1.25rem;
+          gap: 0.65rem;
+          width: 100%;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .nav-mobile-section-title {
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.75px;
+          color: var(--text-secondary);
+          margin-top: 0.5rem;
+          margin-bottom: 0.15rem;
+          padding-left: 0.5rem;
+        }
+
+        .nav-mobile-highlight-link {
+          background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(236, 72, 153, 0.12) 100%);
+          border: 1px solid rgba(99, 102, 241, 0.35);
+          border-radius: 14px;
+          padding: 0.9rem 1.1rem;
           display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
+          align-items: center;
+          justify-content: space-between;
+          text-decoration: none;
+          transition: var(--transition-smooth);
+          margin-bottom: 0.25rem;
+        }
+
+        .nav-mobile-highlight-link:hover {
+          border-color: var(--primary);
+          transform: translateY(-1px);
         }
 
         .nav-mobile-link {
-          padding: 0.75rem 1rem;
-          border-radius: 10px;
-          font-size: 1rem;
-          color: var(--text-secondary);
+          display: flex !important;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.9rem 1.1rem;
+          border-radius: 12px;
+          font-size: 0.98rem;
           font-weight: 500;
+          color: var(--text-primary);
+          background: var(--bg-accent);
+          border: 1px solid transparent;
           transition: var(--transition-smooth);
+          text-decoration: none;
         }
 
         .nav-mobile-link:hover {
-          color: var(--text-primary);
-          background: var(--bg-accent);
+          background: rgba(255, 255, 255, 0.08);
+          border-color: var(--glass-border);
         }
 
         .nav-mobile-link.active {
           color: var(--primary);
           font-weight: 600;
-          background: rgba(99, 102, 241, 0.1);
+          border-color: var(--primary);
+          background: rgba(99, 102, 241, 0.12);
+        }
+
+        .arrow-indicator {
+          font-size: 1.2rem;
+          color: var(--text-secondary);
+          line-height: 1;
+        }
+
+        .nav-mobile-divider {
+          height: 1px;
+          background: var(--glass-border);
+          margin: 0.5rem 0;
+          width: 100%;
+        }
+
+        .nav-mobile-auth-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+          width: 100%;
         }
 
         @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(-12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         @media (max-width: 768px) {
           .nav-desktop-links {
-            display: none;
+            display: none !important;
           }
           .nav-mobile-controls {
-            display: flex;
+            display: flex !important;
           }
         }
       `}</style>
