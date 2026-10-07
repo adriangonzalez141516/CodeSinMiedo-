@@ -29,7 +29,9 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+    setUser(null);
     closeMobileMenu();
+    router.push('/');
     router.refresh();
   };
 
@@ -60,23 +62,28 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
             <Link href="/contacto" className={`nav-link ${pathname === '/contacto' ? 'active' : ''}`}>Contacto</Link>
 
             {user ? (
-              <>
-                <Link href={`/courses/${courseId}`} className="btn btn-primary" style={{ minHeight: '40px', padding: '0.6rem 1.4rem', fontSize: '0.92rem' }}>
-                  Mis Cursos
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginLeft: '0.5rem' }}>
+                <Link href={`/courses/${courseId}`} className="btn btn-primary" style={{ minHeight: '40px', padding: '0.55rem 1.25rem', fontSize: '0.9rem' }}>
+                  🎓 Mis Cursos
                 </Link>
-                <button onClick={handleSignOut} className="btn btn-secondary" style={{ minHeight: '40px', padding: '0.6rem 1.4rem', fontSize: '0.92rem' }}>
-                  Salir
+                <button 
+                  onClick={handleSignOut} 
+                  className="btn btn-secondary" 
+                  style={{ minHeight: '40px', padding: '0.55rem 1.1rem', fontSize: '0.88rem', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#f87171' }}
+                  title="Cerrar sesión"
+                >
+                  🚪 Salir
                 </button>
-              </>
+              </div>
             ) : (
-              <>
-                <Link href="/login" className="btn btn-secondary" style={{ minHeight: '40px', padding: '0.6rem 1.4rem', fontSize: '0.92rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginLeft: '0.5rem' }}>
+                <Link href="/login" className="btn btn-secondary" style={{ minHeight: '40px', padding: '0.55rem 1.2rem', fontSize: '0.9rem' }}>
                   Entrar
                 </Link>
-                <Link href="/register" className="btn btn-primary" style={{ minHeight: '40px', padding: '0.6rem 1.4rem', fontSize: '0.92rem' }}>
+                <Link href="/register" className="btn btn-primary" style={{ minHeight: '40px', padding: '0.55rem 1.3rem', fontSize: '0.9rem' }}>
                   Registrarse
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
@@ -85,7 +92,17 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
             {!user ? (
               <Link href="/login" className="btn btn-secondary nav-mobile-cta" onClick={closeMobileMenu}>Entrar</Link>
             ) : (
-              <Link href={`/courses/${courseId}`} className="btn btn-primary nav-mobile-cta" onClick={closeMobileMenu}>Cursos</Link>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Link href={`/courses/${courseId}`} className="btn btn-primary nav-mobile-cta" onClick={closeMobileMenu}>Cursos</Link>
+                <button 
+                  onClick={handleSignOut} 
+                  className="nav-mobile-logout-btn" 
+                  title="Cerrar sesión"
+                  aria-label="Cerrar sesión"
+                >
+                  Salir
+                </button>
+              </div>
             )}
 
             <button
@@ -117,6 +134,29 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
             <div className="nav-mobile-backdrop" onClick={closeMobileMenu} />
             <div className="nav-mobile-dropdown">
               <div className="nav-mobile-drawer">
+                {/* Logged in User Card in Drawer */}
+                {user && (
+                  <div className="nav-user-status-card">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                      <div className="nav-user-avatar">
+                        {user.email ? user.email.charAt(0).toUpperCase() : '👤'}
+                      </div>
+                      <div style={{ overflow: 'hidden' }}>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Sesión activa:</div>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                          {user.user_metadata?.full_name || user.email}
+                        </div>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={handleSignOut}
+                      className="nav-user-logout-pill"
+                    >
+                      🚪 Salir
+                    </button>
+                  </div>
+                )}
+
                 {/* Highlighted Diagnostic Test Link */}
                 <Link href="/onboarding" className="nav-mobile-highlight-link" onClick={closeMobileMenu}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -158,10 +198,14 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
                   {user ? (
                     <>
                       <Link href={`/courses/${courseId}`} className="btn btn-primary" style={{ width: '100%', minHeight: '48px', fontSize: '1rem' }} onClick={closeMobileMenu}>
-                        🎓 Ir a Mis Cursos
+                        🎓 Entrar a Mis Cursos
                       </Link>
-                      <button onClick={handleSignOut} className="btn btn-secondary" style={{ width: '100%', minHeight: '44px', fontSize: '0.95rem' }}>
-                        Cerrar Sesión
+                      <button 
+                        onClick={handleSignOut} 
+                        className="btn btn-secondary" 
+                        style={{ width: '100%', minHeight: '44px', fontSize: '0.95rem', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#f87171' }}
+                      >
+                        🚪 Cerrar Sesión
                       </button>
                     </>
                   ) : (
@@ -191,7 +235,7 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
         .nav-desktop-links {
           display: flex;
           align-items: center;
-          gap: 1.25rem;
+          gap: 1.15rem;
         }
 
         .nav-link {
@@ -215,19 +259,36 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
         .nav-mobile-controls {
           display: none;
           align-items: center;
-          gap: 0.75rem;
+          gap: 0.5rem;
         }
 
         .nav-mobile-cta {
           min-height: 38px;
-          padding: 0.45rem 1rem;
+          padding: 0.45rem 0.9rem;
           font-size: 0.88rem;
           font-weight: 600;
         }
 
+        .nav-mobile-logout-btn {
+          min-height: 38px;
+          padding: 0.45rem 0.75rem;
+          font-size: 0.82rem;
+          font-weight: 600;
+          border-radius: 99px;
+          border: 1px solid rgba(239, 68, 68, 0.4);
+          background: rgba(239, 68, 68, 0.1);
+          color: #f87171;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+        }
+
+        .nav-mobile-logout-btn:hover {
+          background: rgba(239, 68, 68, 0.2);
+        }
+
         .nav-hamburger-btn {
-          width: 44px;
-          height: 44px;
+          width: 42px;
+          height: 42px;
           border-radius: 12px;
           border: 1px solid var(--glass-border);
           background: var(--bg-accent);
@@ -281,6 +342,43 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
           width: 100%;
           max-width: 600px;
           margin: 0 auto;
+        }
+
+        .nav-user-status-card {
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid var(--glass-border);
+          border-radius: 14px;
+          padding: 0.75rem 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.35rem;
+        }
+
+        .nav-user-avatar {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          background: var(--primary);
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 0.95rem;
+          flex-shrink: 0;
+        }
+
+        .nav-user-logout-pill {
+          background: rgba(239, 68, 68, 0.12);
+          border: 1px solid rgba(239, 68, 68, 0.35);
+          color: #f87171;
+          font-size: 0.82rem;
+          font-weight: 600;
+          padding: 0.35rem 0.75rem;
+          border-radius: 99px;
+          cursor: pointer;
+          transition: var(--transition-smooth);
         }
 
         .nav-mobile-section-title {

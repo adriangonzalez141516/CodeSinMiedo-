@@ -20,25 +20,45 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
+      // Check if user previously completed the onboarding test on this device
+      let localProfile = null;
+      try {
+        const saved = localStorage.getItem('user_learning_profile');
+        if (saved) localProfile = JSON.parse(saved);
+      } catch (err) {
+        // ignore
+      }
+
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
             full_name: name,
+            ...(localProfile ? { learning_profile: localProfile } : {})
           }
         }
       });
 
       if (signUpError) {
         setError(signUpError.message || 'Error al registrarse');
-      } else {
-        router.push('/');
-        router.refresh();
+        setLoading(false);
+        return;
       }
+
+      // If Supabase didn't start session automatically, attempt instant sign in
+      if (!data.session) {
+        await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+      }
+
+      // Redirect immediately to the Onboarding learning profile & plans test!
+      router.push('/onboarding');
+      router.refresh();
     } catch (err) {
       setError('Ocurrió un error inesperado');
-    } finally {
       setLoading(false);
     }
   };
@@ -46,8 +66,13 @@ export default function RegisterPage() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Crea tu cuenta</h1>
-        <p className={styles.subtitle}>Únete a la plataforma para acceder a los cursos</p>
+        <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
+          <span style={{ fontSize: '2.5rem' }}>🎯</span>
+          <h1 className={styles.title} style={{ marginTop: '0.5rem' }}>Crea tu cuenta</h1>
+          <p className={styles.subtitle}>
+            Regístrate para descubrir tu <strong>perfil de aprendizaje</strong> y adaptar todos los cursos a tu mente.
+          </p>
+        </div>
 
         {error && <div className={styles.error}>{error}</div>}
 
@@ -60,7 +85,7 @@ export default function RegisterPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Juan Pérez"
+              placeholder="Tu nombre"
               required
             />
           </div>
@@ -86,18 +111,18 @@ export default function RegisterPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Mínimo 6 caracteres"
               required
             />
           </div>
 
           <button className={styles.button} type="submit" disabled={loading}>
-            {loading ? 'Registrando...' : 'Registrarse'}
+            {loading ? 'Creando cuenta...' : 'Crear cuenta y Definir mi Perfil →'}
           </button>
         </form>
 
-        <div className={styles.link}>
-          ¿Ya tienes una cuenta? <Link href="/login">Inicia sesión</Link>
+        <div className={styles.link} style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          ¿Ya tienes una cuenta? <Link href="/login" style={{ color: 'var(--primary)', fontWeight: 600 }}>Inicia sesión</Link>
         </div>
       </div>
     </div>
