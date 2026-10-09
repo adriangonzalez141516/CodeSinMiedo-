@@ -141,11 +141,6 @@ export function LessonWorkspaceClient({ lesson }: { lesson: Lesson }) {
       `}</style>
       <div className="content-card-box">
         
-        {/* Enfoque tag */}
-        <span style={{ display: 'inline-block', padding: '0.2rem 0.6rem', background: 'var(--primary-glow)', color: 'var(--primary)', borderRadius: '4px', fontSize: '0.8rem', width: 'fit-content' }}>
-          Adaptado para: {currentExplanationInfo.tag}
-        </span>
-
         {/* Accessible 4-Step Cycle Tabs */}
         <div 
           role="tablist" 

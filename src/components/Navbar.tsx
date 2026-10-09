@@ -60,6 +60,9 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
 
             {user ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginLeft: '0.5rem' }}>
+                <Link href="/perfil" className={`nav-link ${pathname === '/perfil' ? 'active' : ''}`} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <span>👤</span> Mi Perfil
+                </Link>
                 <Link href={`/courses/${courseId}`} className="btn btn-primary" style={{ minHeight: '40px', padding: '0.55rem 1.25rem', fontSize: '0.9rem' }}>
                   🎓 Mis Cursos
                 </Link>
@@ -156,6 +159,13 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
 
                 <div className="nav-mobile-section-title">Navegación</div>
 
+                {user && (
+                  <Link href="/perfil" className={`nav-mobile-link ${pathname === '/perfil' ? 'active' : ''}`} onClick={closeMobileMenu}>
+                    <span>👤 Mi Perfil de Alumno</span>
+                    <span className="arrow-indicator">›</span>
+                  </Link>
+                )}
+
                 <Link href="/#metodologia" className="nav-mobile-link" onClick={closeMobileMenu}>
                   <span>💡 Metodología Didáctica</span>
                   <span className="arrow-indicator">›</span>
@@ -182,6 +192,9 @@ export default function Navbar({ courseId = 'java-zero-to-hero' }: NavbarProps) 
                 <div className="nav-mobile-auth-actions">
                   {user ? (
                     <>
+                      <Link href="/perfil" className="btn btn-secondary" style={{ width: '100%', minHeight: '44px', fontSize: '0.95rem' }} onClick={closeMobileMenu}>
+                        👤 Ver Mi Perfil
+                      </Link>
                       <Link href={`/courses/${courseId}`} className="btn btn-primary" style={{ width: '100%', minHeight: '48px', fontSize: '1rem' }} onClick={closeMobileMenu}>
                         🎓 Entrar a Mis Cursos
                       </Link>
